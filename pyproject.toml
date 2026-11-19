@@ -1,0 +1,16 @@
+[project]
+name = "trainertwin-interview-coach"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "pipecat-ai[deepgram,groq,silero,local-smart-turn,webrtc,runner]==1.16.0",
+    "python-dotenv",
+]
+
+[dependency-groups]
+dev = ["pytest", "pytest-asyncio"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+pythonpath = ["."]
+asyncio_default_fixture_loop_scope = "function"
