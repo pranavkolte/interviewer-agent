@@ -42,7 +42,7 @@ htmlcov/
 sessions/
 .sessions/
 logs/
-submission/
+/submission/*
 recordings/
 *.log
 *.log.*
@@ -54,6 +54,10 @@ transcript*.txt
 *.ogg
 *.webm
 *.mp4
+
+# Required artifacts from recorded session 20261119-143536
+!/submission/latency.jsonl
+!/submission/transcript.txt
 
 # Local AI-tool, editor and OS files
 .claude/

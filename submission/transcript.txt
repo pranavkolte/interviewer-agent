@@ -1,0 +1,36 @@
+[    1.54s] COACH: Hi, I'm Maya, and I'll be your interview coach today. There are four questions, so just answer naturally. Here's the first one. Tell me about a project you're proud of.
+[   18.31s] USER: I'm proud of of service that I've built at
+[   18.54s] USER: start up.
+[   23.53s] USER: And it was some online platform
+[   26.31s] USER: shopping platform. So I built the entire back end
+[   30.52s] USER: and handling over fifty thousand orders a day.
+[   31.65s] COACH: Can you describe a specific technical challenge you faced in that backend and how you solved it?
+[   41.77s] USER: The most challenging part was the payment.
+[   43.57s] COACH: Thanks for that. Let's move on. What was the hardest technical problem in it? [INTERRUPTED]
+[   43.66s] *** USER INTERRUPTED COACH ***
+[   48.18s] USER: Where we was having duplicate charges
+[   50.16s] USER: And when payment gateway timed out,
+[   52.31s] USER: we retried the request
+[   55.38s] USER: and sometimes the customer got charged twice.
+[   56.91s] COACH: How did you change the system to prevent duplicate charges? Take your time, go on.
+[   66.26s] USER: So
+[   68.60s] USER: we attached
+[   70.71s] USER: request ID to
+[   72.21s] USER: payment.
+[   73.99s] USER: And
+[   77.79s] USER: stored in... For twenty
+[   79.25s] USER: minutes.
+[   81.50s] USER: So in case if there is
+[   83.97s] USER: payment that got charged,
+[   85.81s] USER: we was running that
+[   87.91s] USER: through the database and checking if
+[   93.32s] USER: is there, like, any active payments for that customer for that specific order?
+[   94.62s] COACH: How did you know it was working well?
+[  102.26s] USER: Sorry. Couldn't... Like, could you say that again?
+[  103.45s] COACH: How did you verify the solution prevented duplicate charges?
+[  110.88s] USER: Oh, okay. So
+[  113.52s] USER: we watched the checkout success rate on dashboard.
+[  118.52s] USER: And we also went through from ninety six
+[  121.04s] USER: percent to ninety nine percent after that fix.
+[  125.44s] USER: So the refund tickets dropped about, like, half fifty percent.
+[  128.78s] COACH: You clearly explained the impact, saying the success rate rose from ninety‑six to ninety‑nine percent. You need to give more detail on how you measured and monitored that improvement. Next time, walk through the exact metrics and tools you used, then thank you for interviewing.

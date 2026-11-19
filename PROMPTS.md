@@ -80,7 +80,7 @@ The four questions, in order: "Tell me about a project you're proud of." / "What
 
 When the last question is finished, the code puts `FEEDBACK_INSTRUCTION` into the context as a system message and lets the LLM answer. The LLM sees the whole conversation, so the feedback is based only on what the candidate actually said: a strength quoted from an answer, one improvement tied to a specific answer, and one tip. It is exactly three sentences, spoken, with no function calls allowed in that phase.
 
-Example closing feedback from a locally recorded session (raw transcripts are excluded from Git):
+Example closing feedback from [recorded session `20261119-143536`](submission/transcript.txt):
 
 > You clearly explained the impact, saying the success rate rose from ninety‑six to ninety‑nine percent. You need to give more detail on how you measured and monitored that improvement. Next time, walk through the exact metrics and tools you used, then thank you for interviewing.
 

@@ -16,9 +16,11 @@ Python 3.11+ is required. Developed and tested on Python 3.13.11 with `uv` and P
 
 Tests: `uv run pytest` (38 offline tests: interview flow, reply cap, session end, latency math, session recorder, eval helpers).
 
-Every session writes `sessions/<timestamp>/latency.jsonl` and `transcript.txt`. Session data, logs, recordings, `.env`, virtual environments and caches stay local and are excluded from Git; `.env.example` documents the settings without credentials. Summarize a local session with:
+Every session writes `sessions/<timestamp>/latency.jsonl` and `transcript.txt`. Generated session data, logs, recordings, `.env`, virtual environments and caches stay local and are excluded from Git; `.env.example` documents the settings without credentials.
 
-`uv run python scripts/latency_report.py sessions/<timestamp>/latency.jsonl`
+The two required artifacts from recorded session `20261119-143536` are tracked in `submission/`: [latency.jsonl](submission/latency.jsonl) and [transcript.txt](submission/transcript.txt). Summarize the recorded session with:
+
+`uv run python scripts/latency_report.py submission/latency.jsonl`
 
 ### End-to-end test without a microphone
 
@@ -59,6 +61,7 @@ side channel: SessionRecorderObserver watches frames and writes latency.jsonl + 
 | `session_recorder.py` | Pure logic that turns events into `latency.jsonl` and `transcript.txt` |
 | `latency_observer.py` | Maps Pipecat frames to `SessionRecorder` calls |
 | `scripts/` | `latency_report.py`, `simulate_candidate.py`, `eval_transcripts.py` |
+| `submission/` | Required latency log and transcript from recorded session `20261119-143536` |
 
 Custom processors:
 
@@ -100,7 +103,7 @@ What went wrong before I changed it:
 3. **A complete-sounding sentence followed by a thinking pause.** In a real session the candidate said "I was building payment processing that school book.", paused about 1.8 s, and went on with "And". Smart Turn said the turn was complete after 0.6 s and the coach moved on. The short-answer hold above is the fix (details in `PROMPTS.md` v5). Short answers now wait 1.5 s longer for the coach to reply, which shows up in latency for answers under 15 words.
 4. **Smart Turn max silence** at 3.0 s is the fallback: if the model keeps saying "not finished", a 3 s silence ends the turn anyway. It was 2.0 s in the first automated runs and was raised to 3.0 s so longer thinking pauses mid-sentence are tolerated. Scenario B uses a 1.3 s and a 1.0 s pause, both below that.
 
-Interruptions: when the user speaks while the bot talks, the aggregator broadcasts an interruption which cancels the LLM call and TTS audio. In a locally recorded session the coach stopped and the interrupted turn is logged as `interrupted: true` (turn 2), with `[INTERRUPTED]` in the transcript. The LLM is told about it: when the assistant turn ends interrupted, a system message says the candidate cut the coach off and not to resume, and `ReplyCapEnforcer` does not count the interrupting turn as a reply. Text that code speaks with `TTSSpeakFrame` (opening line, next questions) is saved to the context as one chunk, so an interrupted code-spoken question still appears whole in the transcript. I did not measure how fast the audio stops, and I did not test backchannels like "mm-hmm" with a real person.
+Interruptions: when the user speaks while the bot talks, the aggregator broadcasts an interruption which cancels the LLM call and TTS audio. In the [recorded session](submission/transcript.txt) the coach stopped and the interrupted turn is logged as `interrupted: true` (turn 2), with `[INTERRUPTED]` in the transcript. The LLM is told about it: when the assistant turn ends interrupted, a system message says the candidate cut the coach off and not to resume, and `ReplyCapEnforcer` does not count the interrupting turn as a reply. Text that code speaks with `TTSSpeakFrame` (opening line, next questions) is saved to the context as one chunk, so an interrupted code-spoken question still appears whole in the transcript. I did not measure how fast the audio stops, and I did not test backchannels like "mm-hmm" with a real person.
 
 ## Latency
 
@@ -114,9 +117,9 @@ Definitions, and how each field is approximated (all `_ms` are milliseconds from
 
 Because the VAD wait (0.6 s) is counted before `user_stopped_ms` and the STT final usually arrives during that wait, the stage `stt_final to llm_first_token` contains the rest of the VAD wait, Smart Turn inference and Groq time to first token.
 
-### Recorded microphone session
+### Recorded session (`20261119-143536`)
 
-One real session with a microphone, `openai/gpt-oss-120b`, 6 logged turns. Raw session files are kept locally and excluded from Git. Computed with `scripts/latency_report.py`:
+One real session with a microphone, `openai/gpt-oss-120b`, 6 logged turns. The latency log and transcript are committed in `submission/`. Computed with `scripts/latency_report.py`:
 
 | Metric | Value |
 |---|---|
